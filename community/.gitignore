@@ -50,3 +50,5 @@ next-env.d.ts
 # Local secret files
 .dev.vars
 .dev.vars.*
+
+/.local-backups/

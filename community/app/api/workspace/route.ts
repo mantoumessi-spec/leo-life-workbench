@@ -14,7 +14,7 @@ export async function GET() {
   if(!row){await db.insert(workspaces).values({userId:user.userId,data:JSON.stringify(seedState()),revision:1,updatedAt:new Date().toISOString()}).onConflictDoNothing();row=await db.select().from(workspaces).where(eq(workspaces.userId,user.userId)).get();}
   if(!row)throw new Error('workspace unavailable');
   return json({state:stateSchema.parse(JSON.parse(row.data)),revision:row.revision,updatedAt:row.updatedAt});
- } catch {return json({error:'暂时无法读取云端记录，请稍后重试。'},503);}
+ } catch {return json({error:'暂时无法读取数据库记录，请稍后重试。'},503);}
 }
 export async function PUT(request:Request) {
  const user=await getChatGPTUser();if(!user)return json({error:'登录已过期，请重新登录。'},401);

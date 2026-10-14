@@ -53,6 +53,7 @@ export default defineConfig(async ({ command }) => {
 
   return {
     server: {
+      host: "127.0.0.1", port:5173, strictPort:true,
       ...(managedLinux
         ? { host: "0.0.0.0", allowedHosts: ["terminal.local"] }
         : {}),

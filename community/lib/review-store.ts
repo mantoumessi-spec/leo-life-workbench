@@ -18,7 +18,7 @@ export async function createReview(userId:string,requestId:string,content:Review
 }
 export async function updateReview(userId:string,id:string,version:number,content:ReviewContent){
  const current=await getReview(userId,id);if(current.status!=='pending')throw new ReviewError('这份草稿已经处理，请新建一份修订草稿。',409);
- if(current.version!==version){if(current.version===version+1&&same(reviewContentSchema.parse(current.payload.content),content))return current;throw new ReviewError('草稿在另一处已有修改。你的输入已保留，请核对云端版本。',409);}
+ if(current.version!==version){if(current.version===version+1&&same(reviewContentSchema.parse(current.payload.content),content))return current;throw new ReviewError('草稿在另一处已有修改。你的输入已保留，请核对数据库版本。',409);}
  const remote=await readWorkspace(userId),payload=proposal(remote.state,content,id,current.createdAt,current.payload.originalText);
  const row=await getDb().update(aiReviews).set({payload:JSON.stringify(payload),version:version+1,updatedAt:now()}).where(and(eq(aiReviews.userId,userId),eq(aiReviews.id,id),eq(aiReviews.version,version),eq(aiReviews.status,'pending'))).returning().get();if(!row)throw new ReviewError('草稿已更新，请刷新后核对',409);return record(row);
 }

@@ -24,12 +24,12 @@ export default function TaskEditor({initial,focus,data,scope,busy,onSave,onCance
  async function submit(){
   const parsed=taskSchema.safeParse(draft.task);if(!parsed.success){setMessage(parsed.error.issues[0]?.message||'请检查日期和时间。');return;}
   let t=parsed.data;
-  if(!isNew){const base={...data,tasks:data.tasks.map(x=>x.id===t.id?draft.base:x)},edited={...data,tasks:data.tasks.map(x=>x.id===t.id?t:x)},merged=mergeWorkspaceDraft(base,data,edited);if(merged.conflicts.length&&!confirm('这项任务在草稿保存后有其他更新。确认以当前表单覆盖冲突字段？其余云端内容会保留。'))return;t=merged.state.tasks.find(x=>x.id===t.id)!;}
+  if(!isNew){const base={...data,tasks:data.tasks.map(x=>x.id===t.id?draft.base:x)},edited={...data,tasks:data.tasks.map(x=>x.id===t.id?t:x)},merged=mergeWorkspaceDraft(base,data,edited);if(merged.conflicts.length&&!confirm('这项任务在草稿保存后有其他更新。确认以当前表单覆盖冲突字段？其余数据库内容会保留。'))return;t=merged.state.tasks.find(x=>x.id===t.id)!;}
   if(await onSave(t,draft.focus,false,eventId)){try{localStorage.removeItem(key);}catch{}}
  }
  const t=draft.task;
  return <form onSubmit={e=>{e.preventDefault();void submit();}}><fieldset disabled={busy} className="task-fieldset">
- {recovery&&<div className="draft-notice"><p>发现这个行动的未保存草稿。</p><button type="button" className="text-button" onClick={()=>{change(recovery);setRecovery(null);}}>恢复草稿</button><button type="button" className="text-button" onClick={()=>{if(confirm('丢弃这份本机草稿？云端记录不变。')){localStorage.removeItem(key);setRecovery(null);}}}>丢弃草稿</button></div>}
+ {recovery&&<div className="draft-notice"><p>发现这个行动的未保存草稿。</p><button type="button" className="text-button" onClick={()=>{change(recovery);setRecovery(null);}}>恢复草稿</button><button type="button" className="text-button" onClick={()=>{if(confirm('丢弃这份本机草稿？数据库记录不变。')){localStorage.removeItem(key);setRecovery(null);}}}>丢弃草稿</button></div>}
  <fieldset disabled={!!recovery} className="task-fieldset">
  <p className="draft-message" role="status">{message?'有内容尚未同步':syncLabel}</p>
  {message&&<p className="draft-message" role="status">{message}</p>}
