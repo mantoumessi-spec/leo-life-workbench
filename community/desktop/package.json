@@ -1,0 +1,1 @@
+{"name":"leo-workbench-desktop-tools","private":true,"type":"module","devDependencies":{"@electron/asar":"4.3.1","@electron/packager":"20.3.0"}}

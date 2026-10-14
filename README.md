@@ -2,9 +2,9 @@
 
 把重要的事，向前推进一点。一个从真实日常使用中迭代的个人行动与复盘工具。
 
-**2026-10-14：先推出本地共创版。** 数据保存在自己的电脑；提供 Windows / Mac 安装、双击启动和备份入口。首次仍需安装 Node.js。Mac 已验证，Windows 待实机首测。在线试用暂不推进，不用收集邮箱。
+**2026-10-14：桌面测试版。** [选择 Windows / Mac 下载](docs/download.md)，无需安装 Node.js，无需登录，记录留在自己的电脑。Mac Apple 芯片实测；Windows / Intel Mac 待实机验证。未办理签名/公证，先小范围试用。原源码启动方式继续保留。
 
-[群友安装指南](docs/local-start.md) · [查看源码](community/README.md) · [参加朋友试用](docs/community-pilot.md) · [反馈问题](https://github.com/mantoumessi-spec/leo-life-workbench/issues) · [贡献指南](CONTRIBUTING.md) · [更新记录](CHANGELOG.md)
+[下载桌面版](docs/download.md) · [源码启动指南](docs/local-start.md) · [隐私检查](docs/privacy-check.md) · [查看源码](community/README.md) · [参加朋友试用](docs/community-pilot.md) · [反馈问题](https://github.com/mantoumessi-spec/leo-life-workbench/issues) · [贡献指南](CONTRIBUTING.md) · [更新记录](CHANGELOG.md)
 
 ![朋友版项目页，虚构测试内容](docs/images/community-preview-2026-10-14.png)
 
