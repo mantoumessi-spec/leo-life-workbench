@@ -1,0 +1,8 @@
+import {DINGTALK_ENABLED} from '../../../lib/community-features';
+import {getChatGPTUser} from '../../chatgpt-auth';
+import {CalendarError,calendarFailure,readCalendar,syncCalendar,startCalendarAuth,disconnectCalendar} from '../../../lib/dingtalk-server';
+export const dynamic='force-dynamic';
+const json=(v:unknown,status=200)=>Response.json(v,{status,headers:{'Cache-Control':'private, no-store','Referrer-Policy':'no-referrer'}});
+export async function GET(request:Request){if(!DINGTALK_ENABLED)return Response.json({error:"朋友版暂未开放日历连接"},{status:503});const user=await getChatGPTUser();if(!user)return json({error:'请登录工作台。'},401);try{return json(await readCalendar(user.userId,new URL(request.url).searchParams.get('week')||''));}catch(e){const f=calendarFailure(e);return json({error:f.error},f.status);}}
+export async function POST(request:Request){if(!DINGTALK_ENABLED)return Response.json({error:"朋友版暂未开放日历连接"},{status:503});const user=await getChatGPTUser();if(!user)return json({error:'请登录工作台。'},401);if(request.headers.get('origin')!==new URL(request.url).origin||request.headers.get('sec-fetch-site')==='cross-site')return json({error:'不接受此来源。'},403);
+ try{const params=new URL(request.url).searchParams,action=params.get('action');if(action==='connect')return new Response(null,{status:303,headers:{Location:await startCalendarAuth(user.userId),'Cache-Control':'no-store','Referrer-Policy':'no-referrer'}});if(action==='disconnect'){await disconnectCalendar(user.userId);return json({disconnected:true});}if(action!=='sync')throw new CalendarError('操作无效。',400);return json(await syncCalendar(user.userId,params.get('week')||''));}catch(e){const f=calendarFailure(e);return json({error:f.error},f.status);}}

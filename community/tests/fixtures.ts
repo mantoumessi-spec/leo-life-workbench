@@ -1,0 +1,2 @@
+import {seedState,scheduleDefaults,type Workspace} from '../lib/workspace.ts';
+export function fixtureState():Workspace {const s=seedState();for(const p of s.projects){p.updatedAt='2026-10-07T04:00:00.000Z';p.status='进行中';}return {...s,tasks:[{...scheduleDefaults,id:'test-task',projectId:'P5',title:'测试任务',note:'',due:'',focusDay:'',status:'doing',createdAt:'2026-10-07T04:00:00.000Z',completedAt:''}]};}

@@ -1,0 +1,31 @@
+.project-nudge{margin:0 0 20px;border:1px solid #dce4d6;border-radius:12px;background:#f8faf5;color:var(--ink)}.project-nudge>summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 20px;cursor:pointer}.project-nudge>summary::-webkit-details-marker{display:none}.project-nudge>summary>span{display:flex;align-items:center;gap:9px;font-size:14px;font-weight:600}.project-nudge>summary>small{font-size:12px;color:#75836b}.project-nudge>summary:after{content:'＋';color:#7f9076}.project-nudge[open]>summary:after{content:'−'}.nudge-body{padding:0 20px 18px}.nudge-item{padding:16px 0;border-bottom:1px solid #e3e9df}.nudge-item-head{display:flex;justify-content:space-between;gap:12px}.nudge-item-head strong{font-size:14px}.nudge-item-head small{color:#7b856e;font-size:11px}.nudge-item>p{font-size:14px;line-height:1.8;margin:8px 0;white-space:pre-wrap}.nudge-actions{display:flex;gap:20px;flex-wrap:wrap;margin-top:10px}.nudge-actions .text-button{font-size:12px}.nudge-item .nudge-gentle{font-size:12px;color:#7d775e}.nudge-empty{font-size:13px;line-height:1.8;color:#748368;padding:10px 0}.nudge-focus,.nudge-recorded{margin-top:16px}.nudge-focus summary,.nudge-recorded summary{cursor:pointer;font-size:13px;color:#536a4f;padding:10px 0}.nudge-focus summary small{font-size:11px;color:#7d8975;margin-left:8px}.nudge-focus-row{padding:8px 0}.nudge-focus-row .checkbox-label{font-size:13px}.nudge-outcome{margin:5px 0 0 25px!important;font-size:12px!important}.nudge-outcome input{margin-top:6px;font-size:13px}.nudge-recorded>div{padding:12px 0;border-bottom:1px solid #e3e9df}.nudge-recorded strong{display:flex;gap:10px;font-size:13px}.nudge-recorded strong small{font-size:11px;color:#819175;font-weight:400}.nudge-recorded p{font-size:13px;white-space:pre-wrap;line-height:1.8}.nudge-footer{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:14px}.nudge-footer small{color:#86917c;font-size:11px}.project-progress-button{margin-top:10px}.project-checkin .modal-actions{justify-content:space-between}.project-checkin textarea{line-height:1.8}.project-checkin .task-fieldset{min-width:0}
+@media(max-width:680px){.project-nudge{margin-bottom:14px}.project-nudge>summary{padding:13px 14px;gap:8px;flex-wrap:wrap}.project-nudge>summary>span{font-size:13px}.project-nudge>summary>small{font-size:11px}.nudge-body{padding:0 14px 14px}.nudge-actions{gap:16px}.nudge-actions .text-button{min-height:34px}.nudge-item-head{flex-wrap:wrap;gap:4px}.nudge-footer{align-items:flex-start;flex-direction:column}.nudge-outcome input,.project-checkin textarea,.project-checkin input,.project-checkin select{font-size:16px}.nudge-focus summary small{display:block;margin:5px 0 0}.project-progress-info>p{font-size:14px!important}}
+
+.nudge-recorded>summary{display:flex;align-items:center;gap:7px;list-style:none}.nudge-recorded>summary::-webkit-details-marker{display:none}.nudge-recorded>summary:before{content:"›";font-size:16px}.nudge-recorded[open]>summary:before{transform:rotate(90deg)}.nudge-recorded>summary svg{display:inline-block;flex-shrink:0}.project-background{margin-top:12px;font-size:12px;color:#73816e}.project-background summary{cursor:pointer}.project-background p{margin-top:8px;line-height:1.8}.project-progress-info>p{margin:7px 0}
+
+.project-attention-date{display:block;margin-top:9px;font-size:11px;color:#78856e}
+.project-progress-info{margin:22px 0 4px;padding-top:18px;border-top:1px solid var(--line)}
+.progress-timeline-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px}
+.progress-timeline-heading h4{margin:0;font-size:13px;font-weight:600;color:#4e634d}
+.progress-timeline-heading>small{font-size:11px;color:#7b8972}
+.progress-timeline{list-style:none;margin:0;padding:0 0 0 7px}
+.progress-timeline-entry{position:relative;border-left:1px solid #d9e2d2;padding:0 0 19px 18px;min-width:0}
+.progress-timeline-entry:last-child{padding-bottom:3px;border-left-color:transparent}
+.progress-timeline-entry:before{content:'';position:absolute;left:-4px;top:5px;width:7px;height:7px;border-radius:50%;background:#9aac8a;box-shadow:0 0 0 4px #fff}
+.progress-timeline-entry:first-child:before{background:#54764f}
+.progress-entry-meta{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:7px}
+.progress-entry-meta time{font-size:12px;font-weight:600;font-variant-numeric:tabular-nums;color:#4d6548}
+.progress-entry-kind{font-size:10px;color:#71816a;background:#f1f4ed;border-radius:4px;padding:2px 6px}
+.progress-entry-kind.kind-blocked{color:#8b7458;background:#f4f0e7}
+.progress-timeline-entry p,.progress-long-text summary{font-size:13px;line-height:1.8;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--ink)}
+.progress-entry-footer{display:flex;align-items:center;justify-content:space-between;margin-top:6px;gap:10px}
+.progress-entry-footer small{font-size:10px;color:#8a9682}
+.progress-entry-footer .text-button{font-size:11px;padding:4px 0;color:#6d8162}
+.progress-entry-context{margin-top:7px}.progress-entry-context summary{font-size:11px;color:#7a8a6e;cursor:pointer}.progress-entry-context p{font-size:12px;margin-top:6px;color:#77876b}
+.progress-long-text summary{cursor:pointer;list-style:none}.progress-long-text summary::-webkit-details-marker{display:none}.progress-long-text summary span{font-size:11px;color:#708962;white-space:nowrap}
+.progress-long-text[open] summary{font-size:0}.progress-long-text[open] summary span{font-size:11px}.progress-long-text[open] summary span:after{content:' / 收起'}
+.progress-expand{font-size:12px;margin:12px 0 4px 25px}
+.project-progress-info .progress-empty{font-size:13px!important;color:#7d8b72;line-height:1.8;margin:0}
+.project-progress-button{margin:13px 0 4px;align-self:flex-start}.nudge-recorded .text-button+.text-button{margin-left:16px}
+@media(max-width:680px){.progress-entry-footer .text-button{min-height:32px;padding:8px 0}.progress-timeline-entry p{font-size:14px}.progress-entry-meta time{font-size:13px}.progress-expand{min-height:38px}.project-progress-button{min-height:40px}}
+.project-grid.full{align-items:start}.project-card .project-next{flex:initial}.project-card .project-next p{font-size:13px}.project-card .project-next>span{font-size:11px}

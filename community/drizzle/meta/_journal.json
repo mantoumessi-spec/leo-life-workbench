@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1791378618327,
+      "tag": "0000_gigantic_next_avengers",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1791464856072,
+      "tag": "0001_empty_boomer",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1791597900201,
+      "tag": "0002_square_gwen_stacy",
+      "breakpoints": true
+    }
+  ]
+}

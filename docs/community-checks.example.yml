@@ -1,0 +1,36 @@
+name: Community checks
+on:
+  push:
+    paths: ['community/**', '.github/workflows/community-checks.yml']
+  pull_request:
+    paths: ['community/**', '.github/workflows/community-checks.yml']
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: community
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: community/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - run: npm run db:local
+      - name: Test local identities
+        run: |
+          npm run dev > /tmp/community-dev.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" || true' EXIT
+          for i in $(seq 1 60); do
+            if curl --silent --output /dev/null http://127.0.0.1:5173/; then break; fi
+            sleep 1
+          done
+          npm run test:accounts

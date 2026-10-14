@@ -1,0 +1,10 @@
+import {fixtureState} from './fixtures.ts';
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {normalizeCalendarEvents,calendarInDay,calendarInHour,calendarTime} from '../lib/calendar.ts';
+const raw=(id='1')=>({id,summary:'沟通',start:{dateTime:'2026-10-10T09:30:00+08:00'},end:{dateTime:'2026-10-10T11:00:00+08:00'}});
+test('deduplicates provider IDs, updates titles, excludes cancelled events',()=>{const a=raw();const events=normalizeCalendarEvents([a,{...a,summary:'改期说明'},{...raw('2'),status:'cancelled'}]);assert.equal(events.length,1);assert.equal(events[0].title,'改期说明');assert.equal(a.summary,'沟通');});
+test('half-open hourly boundaries and exact minutes',()=>{const [e]=normalizeCalendarEvents([raw()]);assert.equal(calendarInHour(e,'2026-10-10',9),true);assert.equal(calendarInHour(e,'2026-10-10',10),true);assert.equal(calendarInHour(e,'2026-10-10',11),false);assert.equal(calendarInHour(e,'2026-10-10',8),false);assert.equal(calendarTime(e),'09:30–11:00');});
+test('UTC and cross-midnight events use Shanghai dates',()=>{const [e]=normalizeCalendarEvents([{...raw(),start:{dateTime:'2026-10-10T15:30:00Z'},end:{dateTime:'2026-10-10T17:00:00Z'}}]);assert.ok(calendarInDay(e,'2026-10-10'));assert.ok(calendarInDay(e,'2026-10-11'));assert.ok(!calendarInDay(e,'2026-10-12'));});
+test('all-day end dates are exclusive and never occupy hourly cells',()=>{const [e]=normalizeCalendarEvents([{id:'all',summary:'出差',isAllDay:true,start:{date:'2026-10-10'},end:{date:'2026-10-12'}}]);assert.ok(calendarInDay(e,'2026-10-11'));assert.ok(!calendarInDay(e,'2026-10-12'));assert.ok(!calendarInHour(e,'2026-10-10',9));assert.equal(calendarTime(e),'全天');});
+test('malformed provider data fails as a whole instead of pretending missing meetings were cancelled',()=>{assert.throws(()=>normalizeCalendarEvents([raw(),{id:'bad'}]));assert.throws(()=>normalizeCalendarEvents([{...raw(),end:{dateTime:'2026-10-10T08:00:00+08:00'}}]));});
