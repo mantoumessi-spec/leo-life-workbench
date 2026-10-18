@@ -17,7 +17,7 @@ node desktop/package.mjs win32 x64
 node desktop/verify-packages.mjs
 ```
 
-Electron 版本固定 44.7.2。默认从官方 Electron Release 下载；若设置 `LEO_ELECTRON_ZIP_DIR` 使用本地运行环境，必须先与官方 `SHASUMS256.txt` 校验。跨系统生成包不代表已在目标系统实测。当前未签名/公证。
+Electron 版本固定 44.7.2。默认从官方 Electron Release 下载；若设置 `LEO_ELECTRON_ZIP_DIR` 使用本地运行环境，必须先与官方 `SHASUMS256.txt` 校验。跨系统生成包不代表已在目标系统实测。当前无开发者证书签名/公证。
 
 `build.mjs` 只产出指定程序文件，禁止从工作目录整体复制。打包前执行扫描，打包后解出 `resources/app.asar`（Mac 为 `Contents/Resources/app.asar`），再次运行 `privacy-check.mjs <解包目录>`，并核对载荷与已审核构建一致。`dist/`、运行数据、安装后的用户目录一律不进 Git。
 
@@ -28,3 +28,5 @@ Electron 版本固定 44.7.2。默认从官方 Electron Release 下载；若设�
 首次启动可选择数据目录；既有用户沿用原目录。默认目录由稳定应用名 `Leo Workbench` 的 userData 决定，与应用程序目录分离。日记/周记目录可单独选择，外部修改通过文件版本检测冲突。启动前每日备份，升级前额外快照；数据库迁移带事务及版本记录。`LEO_DESKTOP_TEST_DATA` 仅用于隔离测试目录，不应在给用户的启动流程中设置。测试只用虚构数据。
 
 Drizzle ORM 0.45.2 的包未包含 LICENSE，因此保留官方标签的 Apache-2.0 许可证副本：`https://github.com/drizzle-team/drizzle-orm/blob/0.45.2/LICENSE`。构建同时收集实际客户端依赖及服务端运行依赖的许可证。
+
+Mac 包在产物生成后执行本地 ad-hoc 完整性签名，并运行 `codesign --verify --deep --strict`。这不等于开发者身份签名或 Apple 公证，首次下载仍可能触发系统提示。
