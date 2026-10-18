@@ -25,6 +25,6 @@ Electron 版本固定 44.7.2。默认从官方 Electron Release 下载；若设�
 
 安全设置使用 sandbox、contextIsolation、关闭 nodeIntegration、CSP、限制网络请求和默认拒绝权限。桌面 Origin 桥仅用于内部协议的同源请求；网页版原有来源校验不变。参考 [Electron 安全文档](https://www.electronjs.org/docs/latest/tutorial/security/)。
 
-数据路径由稳定应用名 `Leo Workbench` 的 userData 决定，与应用程序目录分离。启动前每日备份；数据库迁移带事务及版本记录。`LEO_DESKTOP_TEST_DATA` 仅用于隔离测试目录，不应在给用户的启动流程中设置。测试只用虚构数据。
+首次启动可选择数据目录；既有用户沿用原目录。默认目录由稳定应用名 `Leo Workbench` 的 userData 决定，与应用程序目录分离。日记/周记目录可单独选择，外部修改通过文件版本检测冲突。启动前每日备份，升级前额外快照；数据库迁移带事务及版本记录。`LEO_DESKTOP_TEST_DATA` 仅用于隔离测试目录，不应在给用户的启动流程中设置。测试只用虚构数据。
 
 Drizzle ORM 0.45.2 的包未包含 LICENSE，因此保留官方标签的 Apache-2.0 许可证副本：`https://github.com/drizzle-team/drizzle-orm/blob/0.45.2/LICENSE`。构建同时收集实际客户端依赖及服务端运行依赖的许可证。

@@ -6,7 +6,7 @@ import {stateSchema,type Workspace} from '../lib/workspace';
 export function useWorkspaceSync(scope:string){
  const [view,setView]=useState<SyncView|null>(null),[loading,setLoading]=useState(true),[loadError,setLoadError]=useState('');
  const engine=useRef<AutoSync|null>(null),journal=useRef<SyncJournal|null>(null),mounted=useRef(true),generation=useRef(0);
- async function read():Promise<Remote>{const r=await fetch('/api/workspace',{cache:'no-store',signal:AbortSignal.timeout(15000)}),p=await r.json() as Remote & {error?:string};if(!r.ok)throw new Error(p.error||'无法读取数据库');return {...p,state:stateSchema.parse(p.state)};}
+ async function read():Promise<Remote>{const r=await fetch('/api/workspace',{cache:'no-store',signal:AbortSignal.timeout(15000)}),p=await r.json() as Remote & {error?:string};if(!r.ok)throw new Error(p.error||'无法读取本地数据库');return {...p,state:stateSchema.parse(p.state)};}
  async function load(){
   if(engine.current){await engine.current.refresh();return;}
   const request=++generation.current;setLoading(true);setLoadError('');
@@ -14,7 +14,7 @@ export function useWorkspaceSync(scope:string){
    const remote=await read();if(!mounted.current||request!==generation.current)return;
    let recovered:JournalItem[]=[];
    try{journal.current=new SyncJournal(localStorage,scope,crypto.randomUUID());recovered=journal.current.pending().reverse();}
-   catch{setLoadError('无法读取本机草稿，请保持页面打开，确认数据库保存成功后再离开。');}
+   catch{setLoadError('无法读取本机草稿，请保持页面打开，确认本地数据库保存成功后再离开。');}
    let restoring=true;
    const sync=new AutoSync(remote,{read,write:async(state,revision)=>{
     const r=await fetch('/api/workspace',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({state,revision}),signal:AbortSignal.timeout(15000)});
@@ -27,7 +27,7 @@ export function useWorkspaceSync(scope:string){
    engine.current=sync;
    for(const item of recovered)sync.restore(item.entry.base,item.entry.draft,!!item.entry.blocked);
    restoring=false;
-   if(!sync.dirty&&journal.current){try{journal.current.persist(sync.view());journal.current.acknowledge(recovered);recovered=[];}catch{setLoadError('本机历史备份暂时无法保存，数据库记录已读取。请勿清理可能仍存有草稿的浏览器数据。');}}
+   if(!sync.dirty&&journal.current){try{journal.current.persist(sync.view());journal.current.acknowledge(recovered);recovered=[];}catch{setLoadError('本机历史备份暂时无法保存，本地数据库记录已读取。请勿清理可能仍存有草稿的浏览器数据。');}}
    setView(sync.view());
   }catch(e){if(mounted.current&&request===generation.current)setLoadError(e instanceof Error?e.message:'读取失败');}
   finally{if(mounted.current&&request===generation.current)setLoading(false);}

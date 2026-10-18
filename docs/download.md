@@ -1,44 +1,55 @@
-# 下载个人工作台
+# 下载个人工作台 · 0.3.0 群友试用版
 
-把重要的事，向前推进一点。**无需安装 Node.js，无需登录。** 下载后在自己的电脑使用，记录保存在本机。
+**选择电脑版本 → 解压打开 → 填个昵称 → 开始使用。** 无需安装 Node.js，无需登录 ChatGPT。各自记录、各自保存，一起反馈和迭代。
 
-这是 **0.2.0 小范围测试版**。先用几条测试记录试用，确认保存、重启和备份正常后，再记录重要内容。
+| 你的电脑 | 下载 |
+| --- | --- |
+| Windows，Intel / AMD 64 位 | [下载 Windows 版](https://github.com/mantoumessi-spec/leo-life-workbench/releases/download/v0.3.0-preview.1/Leo-Workbench-0.3.0-Windows-x64.zip) |
+| Mac，Apple 芯片（M 系列） | [下载 Mac Apple 芯片版](https://github.com/mantoumessi-spec/leo-life-workbench/releases/download/v0.3.0-preview.1/Leo-Workbench-0.3.0-Mac-Apple.zip) |
+| Mac，Intel 芯片 | [下载 Mac Intel 版](https://github.com/mantoumessi-spec/leo-life-workbench/releases/download/v0.3.0-preview.1/Leo-Workbench-0.3.0-Mac-Intel.zip) |
 
-| 你的电脑 | 选择下载 | 验证情况 |
-| --- | --- | --- |
-| Windows（常见 Intel / AMD 64 位电脑） | [下载 Windows 版](https://github.com/mantoumessi-spec/leo-life-workbench/releases/download/v0.2.0-preview.1/Leo-Workbench-0.2.0-Windows-x64.zip) | 已打包、内容检查通过；待 Windows 实机验证 |
-| Mac（M1 / M2 / M3 / M4 等 Apple 芯片） | [下载 Mac Apple 芯片版](https://github.com/mantoumessi-spec/leo-life-workbench/releases/download/v0.2.0-preview.1/Leo-Workbench-0.2.0-Mac-Apple.zip) | 本机打开、保存、重启、导出已验证 |
-| Mac（Intel 芯片） | [下载 Mac Intel 版](https://github.com/mantoumessi-spec/leo-life-workbench/releases/download/v0.2.0-preview.1/Leo-Workbench-0.2.0-Mac-Intel.zip) | 已打包、内容检查通过；待 Intel Mac 实机验证 |
+不确定 Mac 类型：苹果菜单 → 关于本机，看“芯片”或“处理器”。Windows ARM 尚未验证。请在电脑浏览器打开此页面，微信内无法下载时选择“在浏览器打开”。
 
-Mac 不确定选哪个：左上角苹果菜单 → 关于本机，看“芯片”或“处理器”。Windows ARM 电脑暂未验证。
+## 第一次打开
 
-![桌面版空白项目界面](images/desktop-preview-2026-10-14.png)
+- Windows：完整解压 ZIP，双击 `LeoWorkbench.exe`。不要在压缩包里运行，也不要单独拖出 exe。
+- Mac：解压 ZIP，把 `Leo Workbench.app` 放入“应用程序”，然后打开。
+- 首次启动可选择默认数据文件夹，或指定自己的专用文件夹。随后填昵称，到“项目”给通用项目取名，再记一件事。
+- 输入会自动保存；退出前确认显示已保存。先用几条测试记录验证保存、退出重开和备份，再正式使用。
 
-## 打开就能用
+**这是未签名、未公证的小范围测试包。** 系统可能阻止首次打开；遇到时把提示发给维护者，不要关闭安全软件或执行绕过安全检查的命令。下载后的系统放行体验仍需要不同电脑的反馈。三个包均做内容检查；Windows / Intel Mac 尚未完成实机验收，不能视为稳定版。
 
-- **Windows**：完整解压 ZIP，打开里面的 `LeoWorkbench.exe`。不要只拖出 exe，也不要在压缩包里运行。
-- **Mac**：解压 ZIP，将 `Leo Workbench.app` 放入“应用程序”，然后打开。
-- 到“项目”为一个项目取名，先记下一件事。输入后等待顶部显示“已保存到工作台数据库”。
+## 可以做什么
 
-这是免开发环境的压缩包，不是商店安装包。当前未办理开发者签名/公证，系统可能拦截或警告；遇到时保留提示反馈，不要关闭安全软件或运行绕过安全检查的命令。未验证所有操作系统版本，也未验证另一台 Mac 从互联网下载后的首次打开流程。
+项目表格与进展时间线、每日重点、08:00—22:00 的计划和实际、连续时段合并、日记全屏写作、每周回顾、自动保存、备份与恢复。
 
-## 我的信息在哪里？
+新用户只有六个可改名的项目位置，其他记录为空；不包含作者的业务、日记、目标、公司授权或私人站点地址。示例截图中的记录为虚构测试内容。
 
-记录、草稿和自动备份在**自己的系统用户数据目录**，与程序分开；更换软件版本不替换数据目录。软件菜单 **文件 → 打开数据和备份文件夹** 可以找到。
+## 数据保存在什么地方
+
+默认保存位置（首次启动可改选专用目录）：
 
 - Mac：`~/Library/Application Support/Leo Workbench/`
 - Windows：`%APPDATA%/Leo Workbench/`
-- `workbench.sqlite` 保存记录；`backups/` 保留每天首次启动时的数据库副本。首次启动空库时，首份副本也为空。软件整天不关闭时不会定时生成新副本。
-- 页面“备份与恢复”下载 JSON，可恢复普通记录；复盘草稿另行导出。建议另存一份到独立磁盘，防止电脑故障。自动副本不自动清理，请按需转存。
 
-软件没有联网同步、遥测、自动更新或内置付费 AI。程序内部页面和保存接口由桌面进程处理，不开放本地网络服务。点击“打开 ChatGPT / 反馈与共创”时才会主动打开外部浏览器；复制到 AI 的内容由你自己决定。系统云盘或备份软件也可能另行同步你的文件。
+“文件 → 打开数据和备份文件夹”可直接找到。`workbench.sqlite` 保存行动数据；`日记/`、`周记/` 保存 Markdown 原文；`backups/` 保存备份。系统浏览器缓存中还可能保留尚未提交的输入草稿。
 
-本地数据没有额外密码或加密；共用电脑请使用独立的系统账号。关闭电脑后不能在手机继续使用同一份数据。
+**Obsidian 是可选项。** 在“更多 → 导出与备份 → 数据位置与 Obsidian”中，分别选自己的日记和周记文件夹。不用 Obsidian 就保持默认。只识别所选目录顶层的 `.md` 文件；新日记按 `YYYY-MM-DD.md`，新周记按 `YYYY-MM-DD至YYYY-MM-DD.md` 命名。旧周记可在周回顾中手动关联原文件。
 
-## 升级和反馈
+关联不会搬动已有文件；后续网页编辑会直接保存原文件。检测到其他窗口修改时会暂停覆盖，要求核对合并。切换文件夹前先完成保存。
 
-升级前先导出备份，退出旧版，再替换应用程序。**不要删除数据目录。** 源码启动版与桌面版不是同一个数据目录；普通记录可用 JSON 导出/恢复迁移，复盘草稿没有一键迁移入口。
+## 备份、更新和隐私
 
-[反馈问题](https://github.com/mantoumessi-spec/leo-life-workbench/issues) · [查看源代码](../community/desktop/README.md) · [隐私检查说明](privacy-check.md) · [全部下载与校验文件](https://github.com/mantoumessi-spec/leo-life-workbench/releases/tag/v0.2.0-preview.1)
+“备份全部本地内容”包含数据库、日记周记和目录关联，保存到本机 `backups/`；“下载行动数据备份”只导出项目、计划等结构化数据，不含 Markdown 原文。完整快照目前由维护者协助恢复，恢复前先解包到新目录核对，不直接覆盖日记。
 
-反馈请只附操作步骤与错误提示，遮住个人内容，不要上传数据库或完整备份。
+每个新版本首次打开前自动保留数据库副本；日记每次修改前也保留旧文。升级前仍建议手动做一次完整备份，退出旧版后替换程序，**不要删除数据文件夹**。不提供自动更新；不要同时运行两个版本。
+
+软件没有遥测或云同步，不开放本地网络端口，不连接付费 AI，不连接钉钉。系统听写可用于输入，其联网行为由系统设置决定；桌面版不启用浏览器语音识别。需要 AI 时，自行选择要复制到自己的 AI 对话中的内容。系统云盘或备份工具可能另外同步所选文件夹。
+
+数据没有额外密码或加密，共用电脑请使用独立系统账号。电脑关机后不能通过手机访问。群友之间不会自动共享项目和记录。
+
+## 反馈
+
+直接在交流群反馈，或 [提交问题](https://github.com/mantoumessi-spec/leo-life-workbench/issues/new)。请说明：电脑系统、版本、操作步骤、预期和实际结果。截图遮住个人内容，**不要发数据库、完整备份或日记**。
+
+[本次发布与校验文件](https://github.com/mantoumessi-spec/leo-life-workbench/releases/tag/v0.3.0-preview.1) · [源代码](../community/) · [隐私检查](privacy-check.md)

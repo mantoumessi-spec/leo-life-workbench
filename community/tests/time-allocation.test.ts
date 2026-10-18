@@ -32,7 +32,7 @@ test('task plans use exact minutes and do not become actual time from progress n
 });
 test('v5 migration keeps historical text unclassified and new classifications roundtrip/export without loss',()=>{
  const old:any=fixtureState();old.schemaVersion=5;old.plans=[{...getPlan(old,'2026-10-05'),days:[{...day(),hours:[{hour:8,plan:'旧计划',actual:'旧实际'}]}]}];
- const state=stateSchema.parse(old);assert.equal(state.schemaVersion,7);assert.equal(state.plans[0].days[0].hours[0].actualAllocation,undefined);
+ const state=stateSchema.parse(old);assert.equal(state.schemaVersion,8);assert.equal(state.plans[0].days[0].hours[0].actualAllocation,undefined);
  const d=mergeTimeBlock(day(),{id:'b',field:'actual',start:9,end:12,text:'分析销售',allocation});const plan=getPlan(state,'2026-10-05');plan.days[3]=d;const next=putPlan(state,plan);
  assert.deepEqual(stateSchema.parse(JSON.parse(JSON.stringify(next))),next);for(const text of [exportMarkdown(next),makeReview(next,plan.week)])assert.match(text,/P1 \/ 投资/);
  const invalid:any=structuredClone(next);invalid.plans[0].days[3].blocks[0].allocation.category='unknown';assert.equal(stateSchema.safeParse(invalid).success,false);

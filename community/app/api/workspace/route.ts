@@ -23,7 +23,7 @@ export async function PUT(request:Request) {
  if(!(request.headers.get('content-type')||'').startsWith('application/json'))return json({error:'请求格式不正确。'},415);
  if(Number(request.headers.get('content-length')||0)>900000)return json({error:'记录过大，请先导出备份。'},413);
  let data;
- try {const text=await request.text();if(new TextEncoder().encode(text).length>900000)return json({error:'记录过大，请先导出备份。'},413);const raw=JSON.parse(text);if(raw?.state?.schemaVersion!==7)return json({error:'工作台已更新，请刷新页面后再保存，避免丢失项目进展与时间分类记录。'},426);data=z.object({state:stateSchema,revision:z.number().int().positive()}).strict().parse(raw);}
+ try {const text=await request.text();if(new TextEncoder().encode(text).length>900000)return json({error:'记录过大，请先导出备份。'},413);const raw=JSON.parse(text);if(raw?.state?.schemaVersion!==8)return json({error:'工作台已更新，请刷新页面后再保存，避免丢失项目进展与时间分类记录。'},426);data=z.object({state:stateSchema,revision:z.number().int().positive()}).strict().parse(raw);}
  catch{return json({error:'内容格式不正确或超过保存上限，请检查输入。'},400);}
  try {
   const updatedAt=new Date().toISOString();

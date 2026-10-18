@@ -5,6 +5,7 @@ import {checkInLabels,projectUpdateSchema,weekStart,type Log,type Project,type P
 import {getPlan,putPlan} from '../lib/planning';
 import {applyProjectUpdate,editProjectEntry,projectAttention,projectHistory} from '../lib/project-progress';
 import {PlannerDialog} from './planning-controls';
+import {weekFacts} from '../lib/weekly-review';
 type Props={data:Workspace;today:string;scope:string;syncLabel:string;showPrompt:boolean;projectId:string;entryId:string;onEdit:(id:string,entryId?:string)=>void;onVoice:()=>void;onProjects:()=>void;save:(s:Workspace,message?:string)=>Promise<boolean>};
 export default function ProjectProgress({data,today,scope,syncLabel,showPrompt,projectId,entryId,onEdit,onVoice,onProjects,save}:Props){
  const attention=projectAttention(data,today),plan=getPlan(data,weekStart(today)),details=useRef<HTMLDetailsElement>(null);
@@ -43,18 +44,20 @@ function ProjectCheckIn({project,data,day,entryId,scope,syncLabel,save,onClose,o
  return <div className="project-checkin"><p className="modal-description">{entryDay} · {previous?'修改这条记录，保留原日期与顺序。':'新的一笔，接在已有记录之后。'}</p><p className="draft-message" role="status">{syncLabel}</p>
  {recovery&&<div className="draft-notice"><p>这里还有一段本机输入。</p><button className="text-button" onClick={()=>{eventId.current=recovery.id;change(recovery.value);setRecovery(null);}}>恢复输入</button><button className="text-button" onClick={()=>{localStorage.removeItem(key);setRecovery(null);}}>保留当前记录</button></div>}
  <fieldset className="task-fieldset" disabled={!!recovery}>{(!previous||previous.checkIn)&&<label>{previous?'当时的情况':'今天的情况'}<select value={value.kind} onChange={e=>change({...value,kind:e.target.value as ProjectUpdate['kind']})}>{Object.entries(checkInLabels).map(([k,v])=><option value={k} key={k}>{v}</option>)}</select></label>}
- <label>{value.kind==='progress'?'走到了哪里':value.kind==='blocked'?'卡在哪里':'留一句说明'}<textarea autoFocus rows={3} maxLength={previous?6000:2000} value={value.text} placeholder={value.kind==='blocked'?'时间被占满、还没想清步骤、需要别人配合……':'做成了什么、得到什么反馈，或者今天决定先放一放。'} onChange={e=>change({...value,text:e.target.value})}/></label>
+ <label>{value.kind==='progress'?'走到了哪里':value.kind==='blocked'?'卡在哪里':'留一句说明'}<textarea autoFocus rows={3} maxLength={previous?20000:2000} value={value.text} placeholder={value.kind==='blocked'?'时间被占满、还没想清步骤、需要别人配合……':'做成了什么、得到什么反馈，或者今天决定先放一放。'} onChange={e=>change({...value,text:e.target.value})}/></label>
  {value.kind==='blocked'&&<p className="help-text">先找卡点，再决定是缩小动作、换个时间，还是重新考虑方向。</p>}
  {!previous&&<details className="task-details"><summary>留一个下一步，或约个再看的时间</summary><label>下一步<input value={value.next??project.next} maxLength={1000} onChange={e=>change({...value,next:e.target.value})} placeholder="不用今天想清所有事情"/></label><label>下次关注日期（可留空）<input type="date" value={value.attentionDay??project.attentionDay??''} onInput={e=>change({...value,attentionDay:e.currentTarget.value})}/></label><p className="help-text">这是下次再看的日期，不是新的截止期限；不会自动新增待办或发通知。</p></details>}{previous&&<p className="help-text">这里只修改这条记录的内容，不会改变项目当前的下一步与关注日期。</p>}
  {error&&<p className="error-banner" role="alert">{error}</p>}<div className="modal-actions"><button className="text-button" onClick={()=>{onClose();onVoice();}}>改用口述</button><button className="button primary" onClick={onClose}>写好了</button></div><p className="help-text">填写后自动保存；同一条进展同步用于项目卡和回顾。</p></fieldset></div>;
 }
 export function ProjectProgressInfo({data,project,onEdit}:{data:Workspace;project:Project;onEdit:(id:string)=>void}){
  const history=projectHistory(data,project.id),[expanded,setExpanded]=useState(false);
- const visible=expanded?history:history.slice(0,3);
+ const actual=data.plans.flatMap(p=>weekFacts(data,p.week)).filter(f=>f.kind==='actual'&&f.projectId===project.id&&!f.logId);
+ const timeline=[...history.filter(l=>l.text.trim()).map(l=>({id:l.id,day:l.day,log:l,fact:null})),...actual.map(f=>({id:f.id,day:f.day,log:null,fact:f}))].sort((a,b)=>b.day.localeCompare(a.day));
+ const visible=expanded?timeline:timeline.slice(0,3);
  return <section className="project-progress-info" aria-label={`${project.name}的进展时间线`}>
-  <div className="progress-timeline-heading"><h4>一路走来的记录</h4><small>{history.length?`${history.length} 条`:'从第一笔开始'}</small></div>
-  {history.length?<ol className="progress-timeline">{visible.map(l=><ProjectTimelineEntry key={l.id} entry={l} onEdit={()=>onEdit(l.id)}/>)}</ol>:<p className="progress-empty">做成了什么、卡在哪里，都可以留在这里。</p>}
-  {history.length>3&&<button className="text-button progress-expand" aria-expanded={expanded} onClick={()=>setExpanded(!expanded)}>{expanded?'收起较早记录':`查看全部 ${history.length} 条记录`}</button>}
+  <div className="progress-timeline-heading"><h4>一路走来的记录</h4><small>{timeline.length?`${timeline.length} 条`:'从第一笔开始'}</small></div>
+  {timeline.length?<ol className="progress-timeline">{visible.map(item=>item.log?<ProjectTimelineEntry key={item.id} entry={item.log} onEdit={()=>onEdit(item.id)}/>:<li className="progress-timeline-entry" key={item.id}><div className="progress-entry-meta"><time>{item.day}</time><span>实际记录</span></div><p>{item.fact!.text}</p><small>{item.fact!.time||'用时未记录'} · {item.fact!.sources.join('、')}（在原记录中修改）</small></li>)}</ol>:<p className="progress-empty">做成了什么、卡在哪里，都可以留在这里。</p>}
+  {timeline.length>3&&<button className="text-button progress-expand" aria-expanded={expanded} onClick={()=>setExpanded(!expanded)}>{expanded?'收起较早记录':`查看全部 ${timeline.length} 条记录`}</button>}
  </section>;
 }
 function ProjectTimelineEntry({entry:l,onEdit}:{entry:Log;onEdit:()=>void}){

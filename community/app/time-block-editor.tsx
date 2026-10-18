@@ -17,7 +17,7 @@ export default function TimeBlockEditor({day,initial,busy,onApply,onClose,projec
  <label>整段时间的归属</label><ClassificationFields projects={projects} label="合并时段" value={block.allocation} onChange={allocation=>setBlock({...block,allocation})}/><p className="help-text">分类应用于整段时间。原时段分类相同时可沿用；不同则请明确选择，原分类随原文保留。</p>
  {preview&&<div className="merge-preview"><strong>以下原文也会保留在合并格中</strong><pre>{preview}</pre></div>}
  {(rangeError||error)&&<p className="error-banner" role="alert">{rangeError||error}</p>}
- <p className="help-text">确认合并或调整后会自动同步数据库，无需另点保存。{existing?'拆分后，整段文字保留在起始小时，其他小时保留分类与用时标记，仍可继续填写。':''}</p>
+ <p className="help-text">确认合并或调整后会自动同步云端，无需另点保存。{existing?'拆分后，整段文字保留在起始小时，其他小时保留分类与用时标记，仍可继续填写。':''}</p>
  <div className="modal-actions">{existing&&<button type="button" className="text-button" onClick={()=>onApply(splitTimeBlock(day,block.id))}>拆回小时格</button>}<button type="button" className="button secondary" onClick={onClose}>取消</button><button className="button primary" disabled={!!rangeError}>{existing?'确认调整':'确认合并'}</button></div>
  </fieldset></form>;
 }

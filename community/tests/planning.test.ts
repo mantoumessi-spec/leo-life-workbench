@@ -8,7 +8,7 @@ const slot=(id:string,day='2026-10-08',startTime='09:30',endTime='11:00'):Sessio
 const fixture=()=>{const s=fixtureState();s.tasks[0]=withSessions(s.tasks[0],[slot('a')]);return putPlan(s,getPlan(s,'2026-10-05'));};
 test('v3 timed and untimed tasks migrate without losing original notes/results',()=>{
  const old:any=fixture();old.schemaVersion=3;delete old.tasks[0].sessions;old.tasks[0].actual='旧实际记录';delete old.plans[0].outcomes;for(const d of old.plans[0].days)delete d.capacityMinutes;
- const migrated=stateSchema.parse(old);assert.equal(migrated.schemaVersion,7);assert.equal(migrated.tasks[0].sessions.length,1);assert.equal(migrated.tasks[0].sessions[0].startTime,'09:30');assert.equal(migrated.tasks[0].actual,'旧实际记录');assert.equal(migrated.plans[0].days[0].capacityMinutes,null);assert.deepEqual(stateSchema.parse(migrated),migrated);
+ const migrated=stateSchema.parse(old);assert.equal(migrated.schemaVersion,8);assert.equal(migrated.tasks[0].sessions.length,1);assert.equal(migrated.tasks[0].sessions[0].startTime,'09:30');assert.equal(migrated.tasks[0].actual,'旧实际记录');assert.equal(migrated.plans[0].days[0].capacityMinutes,null);assert.deepEqual(stateSchema.parse(migrated),migrated);
 });
 test('multi-session task overlaps every displayed hour and keeps both sessions in review/export',()=>{
  const s=fixture();s.tasks[0]=withSessions(s.tasks[0],[{...slot('a'),actual:'第一段成果'}, {...slot('b','2026-10-09','14:00','15:00'),actual:'第二段成果'}]);

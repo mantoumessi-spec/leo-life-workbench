@@ -1,7 +1,7 @@
 import {checkInLabels,dayKey,logSchema,projectUpdateSchema,stateSchema,weekStart,type Log,type Project,type ProjectUpdate,type Workspace} from './workspace.ts';
 import {getPlan} from './planning.ts';
 export function projectHistory(s:Workspace,id:string,through='9999-12-31'){
- return s.logs.filter(l=>l.projectId===id&&l.day<=through&&(l.checkIn||l.kind==='note'||l.kind==='project')).sort((a,b)=>b.day.localeCompare(a.day)||b.createdAt.localeCompare(a.createdAt));
+ return s.logs.filter(l=>l.projectId===id&&!l.unclassified&&l.text.trim()&&l.day<=through&&(l.checkIn||l.kind==='note'||l.kind==='project')).sort((a,b)=>b.day.localeCompare(a.day)||b.createdAt.localeCompare(a.createdAt));
 }
 export function projectRecord(s:Workspace,id:string,day:string){
  const log=projectHistory(s,id,day).find(l=>l.day===day);if(log)return {text:log.text,label:log.checkIn?checkInLabels[log.checkIn.kind]:'已有记录',log};

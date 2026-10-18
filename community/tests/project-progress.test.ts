@@ -7,7 +7,7 @@ import {applyProjectUpdate,editProjectEntry,projectAttention,projectHistory} fro
 import {blankReview,reviewContentSchema,proposal,applyPatches} from '../lib/ai-review.ts';
 const day='2026-10-09',at='2026-10-09T12:00:00Z';
 function fixture(){const s=fixtureState(),p=getPlan(s,'2026-10-05');p.focusProjectIds=['P1','P5'];return putPlan(s,p);}
-test('migrating old data does not invent focus choices, dates, or progress',()=>{const old:any=fixtureState();old.schemaVersion=6;const n=stateSchema.parse(old);assert.equal(n.schemaVersion,7);assert.deepEqual(n.projects,old.projects);assert.equal(projectAttention(n,day).pending.length,0);assert.deepEqual(n.logs,[]);});
+test('migrating old data does not invent focus choices, dates, or progress',()=>{const old:any=fixtureState();old.schemaVersion=6;const n=stateSchema.parse(old);assert.equal(n.schemaVersion,8);assert.deepEqual(n.projects,old.projects);assert.equal(projectAttention(n,day).pending.length,0);assert.deepEqual(n.logs,[]);});
 test('focus and due commitments are checked; paused/waiting and future check dates wait',()=>{
  const s=fixture();s.projects[0].status='等待反馈';s.projects[0].attentionDay='2026-10-12';assert.deepEqual(projectAttention(s,day).pending.map(x=>x.project.id),['P5']);
  s.projects[0].attentionDay=day;assert.deepEqual(projectAttention(s,day).pending.map(x=>x.project.id),['P1','P5']);

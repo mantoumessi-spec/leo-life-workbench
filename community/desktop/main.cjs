@@ -10,7 +10,16 @@ let window;
 if(!app.requestSingleInstanceLock()){app.quit();}else{
 app.on('second-instance',()=>{if(window){if(window.isMinimized())window.restore();window.focus();}});
 app.whenReady().then(async()=>{
-  await runtime.initialize(app.getPath('userData'),join(__dirname,'migrations'));
+  const fs=require('node:fs');
+  const config=join(app.getPath('userData'),'storage-location.json');
+  let dataDir=app.getPath('userData');
+  if(fs.existsSync(config))dataDir=JSON.parse(fs.readFileSync(config,'utf8')).directory;
+  else if(!process.env.LEO_DESKTOP_TEST_DATA&&!fs.existsSync(join(dataDir,'workbench.sqlite'))){
+    const answer=await dialog.showMessageBox({type:'question',title:'选择记录保存位置',message:'你的记录只保存在自己的电脑',detail:'使用默认文件夹最省心；也可以选择一个专门存放工作台数据的空文件夹。以后升级不会覆盖这里。',buttons:['使用默认文件夹','选择文件夹'],defaultId:0,cancelId:0});
+    if(answer.response===1){const chosen=await dialog.showOpenDialog({title:'选择工作台数据文件夹',properties:['openDirectory','createDirectory']});if(!chosen.canceled&&chosen.filePaths[0])dataDir=chosen.filePaths[0];}
+    fs.mkdirSync(app.getPath('userData'),{recursive:true});fs.writeFileSync(config,JSON.stringify({directory:dataDir}));
+  }
+  await runtime.initialize(dataDir,join(__dirname,'migrations'),async()=>{const chosen=await dialog.showOpenDialog(window,{title:'选择日记或周记所在文件夹（只读写该目录的 Markdown 文件）',properties:['openDirectory','createDirectory']});return chosen.canceled?null:chosen.filePaths[0];});
   session.defaultSession.setPermissionRequestHandler((_wc,_permission,callback)=>callback(false));
   session.defaultSession.setPermissionCheckHandler(()=>false);
   session.defaultSession.webRequest.onBeforeRequest((details,callback)=>callback({cancel:!details.url.startsWith(ORIGIN+'/')&&!details.url.startsWith('blob:'+ORIGIN+'/')}));
@@ -48,7 +57,7 @@ app.whenReady().then(async()=>{
   }
   Menu.setApplicationMenu(Menu.buildFromTemplate([
     ...(process.platform==='darwin'?[{role:'appMenu'}]:[]),
-    {label:'文件',submenu:[{label:'打开数据和备份文件夹',click:()=>shell.openPath(app.getPath('userData'))},{type:'separator'},{role:'quit'}]},
+    {label:'文件',submenu:[{label:'打开数据和备份文件夹',click:()=>shell.openPath(dataDir)},{type:'separator'},{role:'quit'}]},
     {label:'编辑',submenu:[{role:'undo'},{role:'redo'},{type:'separator'},{role:'cut'},{role:'copy'},{role:'paste'},{role:'selectAll'}]},
     {label:'视图',submenu:[{role:'resetZoom'},{role:'zoomIn'},{role:'zoomOut'},{role:'togglefullscreen'}]},
   ]));

@@ -5,7 +5,7 @@ import {join} from 'node:path';
 export function openLocalDatabase(directory, migrations) {
   mkdirSync(directory,{recursive:true});
   const database=new DatabaseSync(join(directory,'workbench.sqlite'));
-  database.exec('PRAGMA foreign_keys=ON; PRAGMA journal_mode=WAL;');
+  database.exec('PRAGMA synchronous=FULL; PRAGMA foreign_keys=ON; PRAGMA journal_mode=WAL;');
   database.exec('CREATE TABLE IF NOT EXISTS desktop_migrations (name TEXT PRIMARY KEY)');
   function prepare(sql, parameters=[]) {
     const execute=(raw=false)=>{
@@ -37,9 +37,9 @@ export function openLocalDatabase(directory, migrations) {
         catch(error){database.exec('ROLLBACK');throw error;}
       }
     },
-    async snapshot(){
+    async snapshot(mode="daily"){
       const folder=join(directory,'backups');mkdirSync(folder,{recursive:true});
-      const file=join(folder,`workbench-${new Date().toISOString().slice(0,10)}.sqlite`);
+      const file=join(folder,`workbench-${mode==='daily'?new Date().toISOString().slice(0,10):new Date().toISOString().replaceAll(':','-')+'-'+mode}.sqlite`);
       if(!existsSync(file))await backup(database,file);
       return file;
     },

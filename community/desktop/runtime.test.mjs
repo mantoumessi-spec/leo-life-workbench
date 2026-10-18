@@ -40,3 +40,22 @@ test('SQLite backup is readable, stable per day, and a failed batch fully rolls 
   const saved=new DatabaseSync(path,{readOnly:true});assert.equal(saved.prepare('PRAGMA integrity_check').get().integrity_check,'ok');assert.equal(saved.prepare('SELECT revision FROM workspaces').get().revision,1);saved.close();
  }finally{db.close();rmSync(dir,{recursive:true,force:true});}
 });
+
+test('Markdown autosave, Obsidian conflict detection, restart linking and complete backup',async()=>{
+ const dir=mkdtempSync(join(tmpdir(),'community-notes-'));
+ try{
+  await runtime.initialize(dir,migrations);
+  const endpoint='/api/notes?kind=daily&day=2026-10-18';
+  const empty=await call(endpoint);assert.equal(empty.data.exists,false);
+  assert.equal((await call(endpoint,'PUT',{text:'Fictional journal\nSecond line',version:empty.data.version})).status,200);
+  const saved=await call(endpoint);assert.equal(readFileSync(saved.data.path,'utf8'),'Fictional journal\nSecond line');
+  const {writeFileSync,existsSync}=await import('node:fs');writeFileSync(saved.data.path,'Changed externally');
+  const conflict=await call(endpoint,'PUT',{text:'Must not replace',version:saved.data.version});assert.equal(conflict.status,409);assert.equal(conflict.data.current.text,'Changed externally');
+  assert.equal((await call('/api/note-link','POST',{kind:'weekly',day:'2026-10-12',path:'daily/2026-10-18.md'})).status,200);
+  assert.equal((await call('/api/note-link','POST',{kind:'weekly',day:'2026-10-12',path:'daily/../../private.md'})).status,400);
+  runtime.close();await runtime.initialize(dir,migrations);assert.equal((await call('/api/notes?kind=weekly&day=2026-10-12')).data.text,'Changed externally');
+  const full=await call('/api/full-backup','POST',{});assert.equal(full.status,200);
+  const {gunzipSync}=await import('node:zlib');const payload=JSON.parse(gunzipSync(readFileSync(full.data.file)));assert.equal(payload.notes['daily/2026-10-18.md'],'Changed externally');assert.equal(payload.settings.links['weekly:2026-10-12'],'daily/2026-10-18.md');
+  const restore=join(dir,'recovered.sqlite');writeFileSync(restore,Buffer.from(payload.database,'base64'));const db=new DatabaseSync(restore);assert.equal(db.prepare('PRAGMA integrity_check').get().integrity_check,'ok');db.close();
+ }finally{runtime.close();rmSync(dir,{recursive:true,force:true});}
+});
