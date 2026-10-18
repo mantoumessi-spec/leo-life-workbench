@@ -32,7 +32,7 @@
 - Mac：`~/Library/Application Support/Leo Workbench/`
 - Windows：`%APPDATA%/Leo Workbench/`
 
-“文件 → 打开数据和备份文件夹”可直接找到。`workbench.sqlite` 保存行动数据；`日记/`、`周记/` 保存 Markdown 原文；`backups/` 保存备份。系统浏览器缓存中还可能保留尚未提交的输入草稿。
+“文件 → 打开数据和备份文件夹”可直接找到。`workbench.sqlite` 保存行动数据；`日记/`、`周记/` 保存 Markdown 原文；`backups/` 保存备份。应用自身的本地缓存中还可能保留尚未提交的输入草稿。
 
 **Obsidian 是可选项。** 在“更多 → 导出与备份 → 数据位置与 Obsidian”中，分别选自己的日记和周记文件夹。不用 Obsidian 就保持默认。只识别所选目录顶层的 `.md` 文件；新日记按 `YYYY-MM-DD.md`，新周记按 `YYYY-MM-DD至YYYY-MM-DD.md` 命名。旧周记可在周回顾中手动关联原文件。
 
@@ -53,3 +53,5 @@
 直接在交流群反馈，或 [提交问题](https://github.com/mantoumessi-spec/leo-life-workbench/issues/new)。请说明：电脑系统、版本、操作步骤、预期和实际结果。截图遮住个人内容，**不要发数据库、完整备份或日记**。
 
 [本次发布与校验文件](https://github.com/mantoumessi-spec/leo-life-workbench/releases/tag/v0.3.0-preview.1) · [源代码](../community/) · [隐私检查](privacy-check.md)
+
+Mac Apple 芯片安装包已在本机验证：首次空白进入、填写日记、自动保存、退出再打开后原文保留。该验证不代表所有系统版本或首次下载的安全放行体验均已通过。
