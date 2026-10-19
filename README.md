@@ -2,7 +2,7 @@
 
 把重要的事，向前推进一点。一个从真实日常使用中迭代的个人行动与复盘工具。
 
-**2026-10-18：0.3.0 群友试用版。** [选择 Windows / Mac 下载](docs/download.md)，无需开发环境、无需登录。项目表格、日记与周复盘、本地自动保存；可选关联自己的 Obsidian 文件夹。Windows / Intel Mac 待实机验证，无开发者证书签名/公证，先小范围试用。
+**2026-10-18：0.3.1 群友试用版。** [选择 Windows / Mac 下载](docs/download.md)，无需开发环境、无需登录。项目表格、日记与周复盘、本地自动保存；可选关联自己的 Obsidian 文件夹。Windows / Intel Mac 待实机验证，无开发者证书签名/公证，先小范围试用。
 
 [下载桌面版](docs/download.md) · [源码启动指南](docs/local-start.md) · [隐私检查](docs/privacy-check.md) · [查看源码](community/README.md) · [参加朋友试用](docs/community-pilot.md) · [反馈问题](https://github.com/mantoumessi-spec/leo-life-workbench/issues) · [贡献指南](CONTRIBUTING.md) · [更新记录](CHANGELOG.md)
 

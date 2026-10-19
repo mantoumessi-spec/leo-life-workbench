@@ -1,12 +1,12 @@
-# 下载个人工作台 · 0.3.0 群友试用版
+# 下载个人工作台 · 0.3.1 群友试用版
 
 **选择电脑版本 → 解压打开 → 填个昵称 → 开始使用。** 无需安装 Node.js，无需登录 ChatGPT。各自记录、各自保存，一起反馈和迭代。
 
 | 你的电脑 | 下载 |
 | --- | --- |
-| Windows，Intel / AMD 64 位 | [下载 Windows 版](https://github.com/mantoumessi-spec/leo-life-workbench/releases/download/v0.3.0-preview.1/Leo-Workbench-0.3.0-Windows-x64.zip) |
-| Mac，Apple 芯片（M 系列） | [下载 Mac Apple 芯片版](https://github.com/mantoumessi-spec/leo-life-workbench/releases/download/v0.3.0-preview.1/Leo-Workbench-0.3.0-Mac-Apple.zip) |
-| Mac，Intel 芯片 | [下载 Mac Intel 版](https://github.com/mantoumessi-spec/leo-life-workbench/releases/download/v0.3.0-preview.1/Leo-Workbench-0.3.0-Mac-Intel.zip) |
+| Windows，Intel / AMD 64 位 | [下载 Windows 版](https://github.com/mantoumessi-spec/leo-life-workbench/releases/download/v0.3.1-preview.1/Leo-Workbench-0.3.1-Windows-x64.zip) |
+| Mac，Apple 芯片（M 系列） | [下载 Mac Apple 芯片版](https://github.com/mantoumessi-spec/leo-life-workbench/releases/download/v0.3.1-preview.1/Leo-Workbench-0.3.1-Mac-Apple.zip) |
+| Mac，Intel 芯片 | [下载 Mac Intel 版](https://github.com/mantoumessi-spec/leo-life-workbench/releases/download/v0.3.1-preview.1/Leo-Workbench-0.3.1-Mac-Intel.zip) |
 
 不确定 Mac 类型：苹果菜单 → 关于本机，看“芯片”或“处理器”。Windows ARM 尚未验证。请在电脑浏览器打开此页面，微信内无法下载时选择“在浏览器打开”。
 
@@ -52,8 +52,14 @@
 
 直接在交流群反馈，或 [提交问题](https://github.com/mantoumessi-spec/leo-life-workbench/issues/new)。请说明：电脑系统、版本、操作步骤、预期和实际结果。截图遮住个人内容，**不要发数据库、完整备份或日记**。
 
-[本次发布与校验文件](https://github.com/mantoumessi-spec/leo-life-workbench/releases/tag/v0.3.0-preview.1) · [源代码](../community/) · [隐私检查](privacy-check.md)
+[本次发布与校验文件](https://github.com/mantoumessi-spec/leo-life-workbench/releases/tag/v0.3.1-preview.1) · [源代码](../community/) · [隐私检查](privacy-check.md)
 
 Mac Apple 芯片安装包已在本机验证：首次空白进入、填写日记、自动保存、退出再打开后原文保留。该验证不代表所有系统版本或首次下载的安全放行体验均已通过。
 
 Mac 包已做本地完整性签名并通过校验；这不等于开发者身份认证或 Apple 公证。
+
+## 0.3.1 更新
+
+入口精简为行动、项目、日记、回顾；每日待办按表格呈现；回顾按本周一览、我的复盘、下周重点组织。原有数据格式及保存目录不变。
+
+本次通过90项自动测试、TypeScript检查、三平台安装包内容比对与隐私扫描，并在隔离环境核对空白首次进入。Windows与Intel Mac仍待实机试用；此前Mac Apple保存重启验证来自0.3.0，不代表本版完整实机验收。

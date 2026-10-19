@@ -5,3 +5,5 @@ import '../app/globals.css';
 import '../app/simple-workspace.css';
 import '../app/project-progress.css';
 createRoot(document.getElementById('root')!).render(<CommunityEntry/>);
+
+import '../app/weekly-review.css';

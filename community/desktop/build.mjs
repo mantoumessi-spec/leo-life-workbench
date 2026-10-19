@@ -16,7 +16,7 @@ await bundle({entryPoints:[resolve(here,'routes.ts')],outfile:resolve(out,'route
 copyFileSync(resolve(here,'main.cjs'),resolve(out,'main.cjs'));
 mkdirSync(resolve(out,'migrations'));
 for(const name of readdirSync(resolve(root,'drizzle')).filter(n=>/^\d+.*\.sql$/.test(n)))copyFileSync(resolve(root,'drizzle',name),resolve(out,'migrations',name));
-writeFileSync(resolve(out,'package.json'),JSON.stringify({name:'leo-workbench',productName:'Leo Workbench',version:'0.3.0',main:'main.cjs',author:'Leo Workbench contributors',private:true,license:'MIT'}));
+writeFileSync(resolve(out,'package.json'),JSON.stringify({name:'leo-workbench',productName:'Leo Workbench',version:'0.3.1',main:'main.cjs',author:'Leo Workbench contributors',private:true,license:'MIT'}));
 copyFileSync(resolve(root,'../LICENSE'),resolve(out,'LICENSE'));
 let notices='Third-party runtime licenses. Electron/Chromium notices accompany the runtime.\n';
 for(const name of [...libraries].sort()){const dir=resolve(root,'node_modules',name);const license=['LICENSE','LICENSE.md','LICENSE.txt','license','license.md'].find(n=>existsSync(resolve(dir,n)));const licensePath=license?resolve(dir,license):resolve(here,'licenses',name+'-LICENSE.txt');if(!existsSync(licensePath))throw new Error('Missing license for '+name);notices+='\n--- '+name+' ---\n'+readFileSync(licensePath,'utf8')+'\n';}
